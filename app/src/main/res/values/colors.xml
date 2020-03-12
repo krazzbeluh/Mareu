@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3189D7</color>
     <color name="colorPrimaryDark">#2670B2</color>
     <color name="colorAccent">#03DAC5</color>
+    <!-- Meeting colors -->
+    <color name="MeetingRed">#fc8888</color>
+    <color name="MeetingGreen">#8ae38c</color>
+    <color name="MeetingBlue">#86cffc</color>
+    <color name="MeetingOrange">#F3C74E</color>
+    <color name="MeetingYellow">#FBFB62</color>
 </resources>

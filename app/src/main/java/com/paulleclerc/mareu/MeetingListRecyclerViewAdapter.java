@@ -24,13 +24,13 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
     @Override
     public void onBindViewHolder(@NonNull MeetingHolder holder, int position) {
-        Meeting meeting = Meeting.sMeetingList.get(position);
+        Meeting meeting = Meeting.getMeetingList().get(position);
         holder.bindMeeting(meeting);
     }
 
     @Override
     public int getItemCount() {
-        return Meeting.sMeetingList.size();
+        return Meeting.getMeetingList().size();
     }
 
     static class MeetingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

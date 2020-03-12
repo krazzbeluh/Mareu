@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class MeetingListInstrumentedTest {
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MeetingListActivity> mActivityRule = new ActivityTestRule<>(MeetingListActivity.class);
 
     private Meeting mMeeting;
 
@@ -34,8 +34,8 @@ public class MeetingListInstrumentedTest {
         Date date = new Date(1583964935);
         List<String> participants = new ArrayList<>();
         participants.add("Consectetur");
-        mMeeting = new Meeting(date, "Lorem Ipsum", "Dolor Sit Amet", participants);
-        Meeting.sMeetingList.add(mMeeting);
+        mMeeting = new Meeting(date, "Lorem Ipsum", "Dolor Sit Amet", participants, R.color.MeetingGreen);
+        Meeting.getMeetingList().add(mMeeting);
     }
 
     @Test

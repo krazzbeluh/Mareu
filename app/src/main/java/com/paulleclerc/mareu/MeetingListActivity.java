@@ -7,14 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.paulleclerc.mareu.Model.Meeting;
-import com.paulleclerc.mareu.R;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MeetingListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MeetingListRecyclerViewAdapter mAdapter;
@@ -24,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list_meeting);
         mRecyclerView = findViewById(R.id.meeting_list_view);
 
         Toolbar mainToolbar = findViewById(R.id.main_toolbar);
