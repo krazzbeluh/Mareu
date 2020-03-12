@@ -4,15 +4,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.paulleclerc.mareu.Model.Meeting;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingListRecyclerViewAdapter.MeetingHolder> {
     private static final String TAG = MeetingListRecyclerViewAdapter.class.getSimpleName();
@@ -40,16 +38,17 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
         private Meeting mMeeting;
 
-        @BindView(R.id.meeting_list_thumbnail)
-        public View mThumbnailView;
-        @BindView(R.id.meeting_list_title)
-        public TextView mTitleView;
-        @BindView(R.id.meeting_list_subtitle)
-        public TextView mSubtitleView;
+        View mThumbnailView;
+        TextView mTitleView;
+        TextView mSubtitleView;
+        RelativeLayout mRelativeLayout;
 
         MeetingHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            this.mThumbnailView = itemView.findViewById(R.id.meeting_list_thumbnail);
+            this.mTitleView = itemView.findViewById(R.id.meeting_list_title);
+            this.mSubtitleView = itemView.findViewById(R.id.meeting_list_subtitle);
+            mRelativeLayout = itemView.findViewById(R.id.meeting_item_relativeLayout);
         }
 
         @Override
