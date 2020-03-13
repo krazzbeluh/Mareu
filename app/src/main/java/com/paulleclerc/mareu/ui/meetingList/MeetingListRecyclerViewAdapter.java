@@ -1,4 +1,4 @@
-package com.paulleclerc.mareu;
+package com.paulleclerc.mareu.ui.meetingList;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.paulleclerc.mareu.Model.Meeting;
+import com.paulleclerc.mareu.R;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingListRecyclerViewAdapter.MeetingHolder> {
     private static final String TAG = MeetingListRecyclerViewAdapter.class.getSimpleName();
