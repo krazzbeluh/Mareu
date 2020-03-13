@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Ma réu</string>
     <string name="delete_icon">Delete icon</string>
+    <string name="meetingSubject">Sujet de la réunion</string>
+    <string name="meetingLocation">Lieu de la réunion</string>
+    <string name="colorTextView">Couleur de la vignette :</string>
+    <string name="next">Suivant</string>
 
 </resources>

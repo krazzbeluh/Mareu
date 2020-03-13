@@ -14,7 +14,8 @@
         android:elevation="4dp"
         android:theme="@style/AppTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        app:title="Nouvelle réunion"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
