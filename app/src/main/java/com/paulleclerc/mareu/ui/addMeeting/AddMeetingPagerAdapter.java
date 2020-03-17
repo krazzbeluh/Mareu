@@ -6,8 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingDateFragment;
-import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingParticipantsFragment;
-import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingSubjectFragment;
+import com.paulleclerc.mareu.ui.addMeeting.fragments.subject.MeetingSubjectFragment;
 import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingTimeFragment;
 
 public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
@@ -26,8 +25,6 @@ public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
                 return new MeetingDateFragment();
             case 2:
                 return new MeetingTimeFragment();
-            case 3:
-                return new MeetingParticipantsFragment();
             default:
                 return new Fragment();
         }
@@ -35,6 +32,6 @@ public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 }
