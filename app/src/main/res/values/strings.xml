@@ -7,5 +7,6 @@
     <string name="next">Suivant</string>
     <string name="participant_email">Email du participant</string>
     <string name="exemple_email">exemple@email.fr</string>
+    <string name="delete_email_button">Delete email adress</string>
 
 </resources>

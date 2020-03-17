@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.paulleclerc.mareu.Model.Meeting;
 import com.paulleclerc.mareu.R;
+import com.paulleclerc.mareu.events.DeleteEmailEvent;
 
 import java.util.Objects;
 
@@ -21,7 +24,8 @@ import java.util.Objects;
  * Use the {@link MeetingSubjectFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MeetingSubjectFragment extends Fragment {
+public class MeetingSubjectFragment extends Fragment implements ParticipantsEmailRecyclerViewAdapter.Listener {
+    private static final String TAG = MeetingSubjectFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,7 +77,7 @@ public class MeetingSubjectFragment extends Fragment {
         mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView = Objects.requireNonNull(getView()).findViewById(R.id.participants_rv);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewAdapter = new ParticipantsEmailRecyclerViewAdapter();
+        mRecyclerViewAdapter = new ParticipantsEmailRecyclerViewAdapter(this);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
@@ -82,5 +86,11 @@ public class MeetingSubjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_meeting_subject, container, false);
+    }
+
+    @Override
+    public void onClickDelete(String email) {
+        // TODO
+        Log.d(TAG, "onClickDelete: deleting " + email);
     }
 }
