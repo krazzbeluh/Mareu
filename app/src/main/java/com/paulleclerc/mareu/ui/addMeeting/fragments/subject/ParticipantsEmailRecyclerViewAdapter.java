@@ -1,6 +1,5 @@
 package com.paulleclerc.mareu.ui.addMeeting.fragments.subject;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.shape.ShapePath;
 import com.paulleclerc.mareu.R;
-import com.paulleclerc.mareu.events.DeleteEmailEvent;
-import com.paulleclerc.mareu.ui.meetingList.MeetingListRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,26 +20,27 @@ import java.util.List;
 public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsEmailRecyclerViewAdapter.EmailHolder> {
     private List<String> mEmailList = new ArrayList<>(Arrays.asList("exemple@email.fr", "paulleclerc@vigiclean.com"));
 
-    private final Listener callback;
-    public interface Listener {
-        void onClickDelete(String email);
+    List<String> getEmailList() {
+        return mEmailList;
     }
 
-    public ParticipantsEmailRecyclerViewAdapter(Listener callback) {
-        this.callback = callback;
+    private DeleteEmailCallback mCallback;
+
+    ParticipantsEmailRecyclerViewAdapter(DeleteEmailCallback callback) {
+        this.mCallback = callback;
     }
 
     @NonNull
     @Override
     public EmailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_participants_item, parent, false);
-        return new ParticipantsEmailRecyclerViewAdapter.EmailHolder(inflatedView);
+        return new ParticipantsEmailRecyclerViewAdapter.EmailHolder(this, inflatedView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EmailHolder holder, int position) {
         String email = mEmailList.get(position);
-        holder.bindEmail(email, callback);
+        holder.bindEmail(email);
     }
 
     @Override
@@ -50,40 +49,46 @@ public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<P
     }
 
     private void deleteEmail(String email) {
-        mEmailList.remove(email);
+        for (int i = 0; i < mEmailList.size(); i++) {
+            if (email.equals(mEmailList.get(i))) {
+                mEmailList.remove(i);
+                mCallback.onDeleteEmail(i);
+                break;
+            }
+        }
     }
 
     static class EmailHolder extends RecyclerView.ViewHolder {
         private static final String TAG = EmailHolder.class.getSimpleName();
+
+        final ParticipantsEmailRecyclerViewAdapter mAdapter;
 
         String mEmail;
 
         TextView mEmailView;
         ImageButton mDeleteButton;
 
-        EmailHolder(@NonNull View itemView) {
+        EmailHolder(ParticipantsEmailRecyclerViewAdapter adapter, @NonNull View itemView) {
             super(itemView);
+            mAdapter = adapter;
             this.mEmailView = itemView.findViewById(R.id.email_text_view);
             this.mDeleteButton = itemView.findViewById(R.id.delete_email_button);
-
-            mDeleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "onClick: Click");
-                }
-            });
         }
 
-        void bindEmail(String email, final ParticipantsEmailRecyclerViewAdapter.Listener callback) {
+        void bindEmail(String email) {
             this.mEmail = email;
             mEmailView.setText(email);
 
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callback.onClickDelete(mEmail);
+                    mAdapter.deleteEmail(mEmail);
                 }
             });
         }
+    }
+
+    interface DeleteEmailCallback {
+        void onDeleteEmail(int position);
     }
 }

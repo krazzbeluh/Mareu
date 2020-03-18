@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.paulleclerc.mareu.Model.Meeting;
 import com.paulleclerc.mareu.R;
-import com.paulleclerc.mareu.events.DeleteEmailEvent;
 
 import java.util.Objects;
 
@@ -24,7 +23,7 @@ import java.util.Objects;
  * Use the {@link MeetingSubjectFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MeetingSubjectFragment extends Fragment implements ParticipantsEmailRecyclerViewAdapter.Listener {
+public class MeetingSubjectFragment extends Fragment implements ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
     private static final String TAG = MeetingSubjectFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,8 +88,11 @@ public class MeetingSubjectFragment extends Fragment implements ParticipantsEmai
     }
 
     @Override
-    public void onClickDelete(String email) {
-        // TODO
-        Log.d(TAG, "onClickDelete: deleting " + email);
+    public void onDeleteEmail(int position) {
+        mRecyclerView.removeViewAt(position);
+        mRecyclerViewAdapter.notifyItemRemoved(position);
+        mRecyclerViewAdapter.notifyItemRangeChanged(position, mRecyclerViewAdapter.getEmailList().size());
+
+        mRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
