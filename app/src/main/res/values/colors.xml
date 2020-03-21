@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#2670B2</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="addButtonColor">#DA0721</color>
+    <color name="grayOut">#BCBCBC</color>
     <!-- Meeting colors -->
     <color name="MeetingRed">#fc8888</color>
     <color name="MeetingGreen">#8ae38c</color>

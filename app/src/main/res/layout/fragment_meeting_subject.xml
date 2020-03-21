@@ -8,7 +8,7 @@
     tools:context=".ui.addMeeting.fragments.subject.MeetingSubjectFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/subject_text_input"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/subject_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -140,24 +140,25 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
         android:ems="10"
         android:hint="@string/participant_email"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/add_email_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/participants_rv"
-        android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS" />
+        app:layout_constraintTop_toBottomOf="@+id/participants_rv" />
 
-    <Button
-        android:id="@+id/button"
+    <ImageButton
+        android:id="@+id/add_email_button"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/ic_add_box"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintDimensionRatio="1:1"
+        android:backgroundTint="@color/grayOut"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/participants_rv" />
+        app:layout_constraintTop_toBottomOf="@+id/participants_rv"
+        android:contentDescription="@string/add_email"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

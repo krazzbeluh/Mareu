@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsEmailRecyclerViewAdapter.EmailHolder> {
-    private List<String> mEmailList = new ArrayList<>(Arrays.asList("exemple@email.fr", "paulleclerc@vigiclean.com"));
+    private List<String> mEmailList = new ArrayList<>();
 
     List<String> getEmailList() {
         return mEmailList;
@@ -56,6 +56,11 @@ public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<P
                 break;
             }
         }
+    }
+
+    void addEmail(String email) {
+        mEmailList.add(email);
+        notifyItemInserted(mEmailList.size() - 1);
     }
 
     static class EmailHolder extends RecyclerView.ViewHolder {
