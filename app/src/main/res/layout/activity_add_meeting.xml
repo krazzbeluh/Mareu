@@ -17,7 +17,7 @@
         tools:ignore="MissingConstraints"
         app:title="Nouvelle réunion"/>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.paulleclerc.mareu.ui.utils.NonSwipeableViewPager
         android:id="@+id/viewPager"
         android:layout_width="409dp"
         android:layout_height="601dp"

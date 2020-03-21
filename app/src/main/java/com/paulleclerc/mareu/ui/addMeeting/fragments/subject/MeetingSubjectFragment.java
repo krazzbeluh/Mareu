@@ -1,9 +1,10 @@
 package com.paulleclerc.mareu.ui.addMeeting.fragments.subject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,11 +24,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.paulleclerc.mareu.R;
-import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.model.MeetingBuilder;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -37,6 +37,9 @@ import java.util.regex.Pattern;
  * create an instance of this fragment.
  */
 public class MeetingSubjectFragment extends Fragment implements ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback, View.OnClickListener {
+    public interface OnNavigateClickListener { void onNavButtonClicked(boolean isRight); }
+    private OnNavigateClickListener mOnNavigateClickListener;
+
     private static final String TAG = MeetingSubjectFragment.class.getSimpleName();
 
     private Pattern mEmailPattern = Pattern.compile("^(.+)@(.+)$");
@@ -128,6 +131,12 @@ public class MeetingSubjectFragment extends Fragment implements ParticipantsEmai
         configureNextButton();
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try { mOnNavigateClickListener = (OnNavigateClickListener) context; } catch (ClassCastException e) { throw new ClassCastException(((Activity) context).getLocalClassName() + " must implement OnButtonClickListener");}
+    }
+
     private void configureAddEmailButton() {
         mAddEmailButton.setEnabled(false);
         mAddEmailButton.setOnClickListener(new View.OnClickListener() {
@@ -181,38 +190,54 @@ public class MeetingSubjectFragment extends Fragment implements ParticipantsEmai
     private void setSelectedButton(Button button) {
         int buttonId = button.getId();
         mSelectedButton = button;
-        mRedButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mRedButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
-        mOrangeButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mOrangeButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
-        mYellowButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mYellowButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
-        mGreenButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mGreenButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
-        mBlueButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mBlueButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
-        mPurpleButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mPurpleButton.getId() == buttonId) ? R.drawable.ic_check_box_white_24dp : R.drawable.ic_box_white_24dp));
+        mRedButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mRedButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mOrangeButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mOrangeButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mYellowButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mYellowButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mGreenButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mGreenButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mBlueButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mBlueButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mPurpleButton.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable((mPurpleButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
     }
 
     private int getSelectedColor() {
-        if (mRedButton.equals(mSelectedButton)) {
-            return R.color.MeetingRed;
-        } else if (mOrangeButton.equals(mSelectedButton)) {
-            return R.color.MeetingOrange;
-        } else if (mYellowButton.equals(mSelectedButton)) {
-            return R.color.MeetingYellow;
-        } else if (mGreenButton.equals(mSelectedButton)) {
-            return R.color.MeetingGreen;
-        } else if (mBlueButton.equals(mSelectedButton)) {
-            return R.color.MeetingBlue;
-        } else {
-            return R.color.MeetingPurple;
-        }
+        if (mRedButton.equals(mSelectedButton)) return R.color.MeetingRed;
+        else if (mOrangeButton.equals(mSelectedButton)) return R.color.MeetingOrange;
+        else if (mYellowButton.equals(mSelectedButton)) return R.color.MeetingYellow;
+        else if (mGreenButton.equals(mSelectedButton)) return R.color.MeetingGreen;
+        else if (mBlueButton.equals(mSelectedButton)) return R.color.MeetingBlue;
+        else return R.color.MeetingPurple;
     }
 
     private void configureNextButton() {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MeetingBuilder.builder.setSubject(mSubjectTextView.getText().toString());
-                MeetingBuilder.builder.setLocation(mLocationTextView.getText().toString());
-                MeetingBuilder.builder.setParticipants(mRecyclerViewAdapter.getEmailList());
+                List<String> missingParams = new ArrayList<>();
+
+                String subject = mSubjectTextView.getText().toString();
+                if (!subject.equals("")) MeetingBuilder.builder.setSubject(subject);
+                else missingParams.add("le sujet");
+
+                String location = mLocationTextView.getText().toString();
+                if (!location.equals("")) MeetingBuilder.builder.setLocation(location);
+                else missingParams.add("le lieu");
+
+                List<String> participants = mRecyclerViewAdapter.getEmailList();
+                if (participants.size() > 0) MeetingBuilder.builder.setParticipants(participants);
+                else missingParams.add("les participants");
+
                 MeetingBuilder.builder.setColor(getSelectedColor());
+
+                if (missingParams.size() > 0) {
+                    StringBuilder message = new StringBuilder("Veuillez indiquer ");
+                    for (int i = 0; i < missingParams.size(); i++) {
+                        message.append(missingParams.get(i));
+                        if (i == missingParams.size() - 2) message.append(" et ");
+                        else if (i < missingParams.size() - 2) message.append(", ");
+                    }
+                    Log.d(TAG, "onClick: " + message.toString());
+                } else {
+                    mOnNavigateClickListener.onNavButtonClicked(true);
+                }
             }
         });
     }
@@ -234,17 +259,10 @@ public class MeetingSubjectFragment extends Fragment implements ParticipantsEmai
     @Override
     public void onClick(View v) {
         int buttonId = v.getId();
-        if (isColorButton(buttonId)) {
-            setSelectedButton((Button) v);
-        }
+        if (isColorButton(buttonId)) setSelectedButton((Button) v);
     }
 
     private boolean isColorButton(int id) {
-        return  (id == R.id.red_button
-                || id == R.id.orange_button
-                || id == R.id.yellow_button
-                || id == R.id.green_button
-                || id == R.id.blue_button
-                || id == R.id.purple_button);
+        return  (id == R.id.red_button || id == R.id.orange_button || id == R.id.yellow_button || id == R.id.green_button || id == R.id.blue_button || id == R.id.purple_button);
     }
 }
