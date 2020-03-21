@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/subject_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/meetingSubject"
@@ -32,6 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subject_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/location_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/meetingLocation"
@@ -40,61 +42,74 @@
 
     <Button
         android:id="@+id/red_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@color/MeetingRed"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingRed"
+        android:forceDarkAllowed="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/color_textView" />
 
     <Button
         android:id="@+id/orange_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginTop="16dp"
-        android:background="@color/MeetingOrange"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingOrange"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/color_textView" />
 
     <Button
         android:id="@+id/yellow_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/MeetingYellow"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingYellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/color_textView" />
 
     <Button
         android:id="@+id/green_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:background="@color/MeetingGreen"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingGreen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/red_button" />
 
     <Button
         android:id="@+id/blue_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginTop="24dp"
-        android:background="@color/MeetingBlue"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingBlue"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orange_button" />
 
     <Button
         android:id="@+id/purple_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/colorButtonSize"
         android:layout_height="@dimen/colorButtonSize"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/MeetingPurple"
+        android:background="@drawable/ic_box_white_24dp"
+        android:backgroundTint="@color/MeetingPurple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yellow_button" />
 
@@ -110,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/email_edit_text" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/next_to_date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

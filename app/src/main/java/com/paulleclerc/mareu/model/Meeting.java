@@ -1,6 +1,4 @@
-package com.paulleclerc.mareu.Model;
-
-import com.paulleclerc.mareu.R;
+package com.paulleclerc.mareu.model;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -3,7 +3,7 @@ package com.paulleclerc.mareu;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.paulleclerc.mareu.Model.Meeting;
+import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.ui.meetingList.MeetingListActivity;
 
 import org.junit.Before;
