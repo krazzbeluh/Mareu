@@ -234,7 +234,17 @@ public class MeetingSubjectFragment extends Fragment implements ParticipantsEmai
                         if (i == missingParams.size() - 2) message.append(" et ");
                         else if (i < missingParams.size() - 2) message.append(", ");
                     }
-                    Log.d(TAG, "onClick: " + message.toString());
+                    message.append(".");
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Erreur")
+                            .setMessage(message)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {}
+                            })
+                            .create()
+                            .show();
                 } else {
                     mOnNavigateClickListener.onNavButtonClicked(true);
                 }
