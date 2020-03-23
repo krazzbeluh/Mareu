@@ -19,11 +19,9 @@ import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
-import com.paulleclerc.mareu.model.MeetingBuilder;
+import com.paulleclerc.mareu.model.Meeting;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +46,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private TextView mEmailTextView;
     private ImageButton mAddEmailButton;
     private Button mDateTimePickerButton;
-    //private Button mNextButton;
+    private Button mDoneButton;
 
     private Button mRedButton;
     private Button mOrangeButton;
@@ -76,7 +74,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mAddEmailButton = findViewById(R.id.add_email_button);
         mEmailTextView = findViewById(R.id.email_edit_text);
         mDateTimePickerButton  = findViewById(R.id.date_time_picker_button);
-        //mNextButton = findViewById(R.id.next_to_date_button);
+        mDoneButton = findViewById(R.id.done_button);
         mRedButton = findViewById(R.id.red_button);
         mOrangeButton = findViewById(R.id.orange_button);
         mYellowButton = findViewById(R.id.yellow_button);
@@ -88,7 +86,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         configureEmailTextView();
         configureColorButtons();
         configureDateTimePickerButton();
-        //configureNextButton();
+        configureDoneButton();
     }
 
     private void configureAddEmailButton() {
@@ -200,27 +198,20 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mPurpleButton.setBackground(getResources().getDrawable((mPurpleButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
     }
 
-    /*private void configureNextButton() {
-        mNextButton.setOnClickListener(new View.OnClickListener() {
+    private void configureDoneButton() {
+        mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<String> missingParams = new ArrayList<>();
 
                 String subject = mSubjectTextView.getText().toString();
-                if (!subject.equals("")) MeetingBuilder.builder.setSubject(subject);
-                else missingParams.add("le sujet");
+                if (subject.equals("")) missingParams.add("le sujet");
 
                 String location = mLocationTextView.getText().toString();
-                if (!location.equals("")) MeetingBuilder.builder.setLocation(location);
-                else missingParams.add("le lieu");
+                if (location.equals("")) missingParams.add("le lieu");
 
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
-                if (participants.size() > 0) MeetingBuilder.builder.setParticipants(participants);
-                else missingParams.add("les participants");
-
-                // TODO : datetime
-
-                MeetingBuilder.builder.setColor(getSelectedColor());
+                if (!(participants.size() > 0)) missingParams.add("les participants");
 
                 if (missingParams.size() > 0) {
                     StringBuilder message = new StringBuilder("Veuillez indiquer ");
@@ -242,11 +233,14 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                             .show();
                 } else {
                     Log.d(TAG, "onClick: meeting ok");
-                    // TODO: create meeting and add it to list
+
+                    Meeting newMeeting = new Meeting(mSelectedDate, location, subject, participants, getSelectedColor());
+                    Meeting.addMeeting(newMeeting);
+                    finish();
                 }
             }
         });
-    }*/
+    }
 
     private int getSelectedColor() {
         if (mRedButton.equals(mSelectedButton)) return R.color.MeetingRed;

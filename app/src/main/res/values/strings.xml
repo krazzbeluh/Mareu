@@ -9,5 +9,6 @@
     <string name="exemple_email" tools:ignore="Typos">exemple@email.fr</string>
     <string name="delete_email_button">Supprimer l\'adresse email</string>
     <string name="add_email">Ajouter l\'email</string>
+    <string name="Done">Terminé</string>
 
 </resources>
