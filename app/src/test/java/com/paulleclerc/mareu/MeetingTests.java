@@ -1,6 +1,6 @@
 package com.paulleclerc.mareu;
 
-import com.paulleclerc.mareu.Model.Meeting;
+import com.paulleclerc.mareu.model.Meeting;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MeetingListActivity">
+    tools:context=".ui.meetingList.MeetingListActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
@@ -27,4 +27,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/addButtonColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="addMeeting"
+        app:backgroundTint="@color/MeetingRed"
+        app:layout_constraintBottom_toBottomOf="@+id/meeting_list_view"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_list_view"
+        app:srcCompat="@drawable/ic_add"
+        tools:ignore="OnClick" />
 </androidx.constraintlayout.widget.ConstraintLayout>

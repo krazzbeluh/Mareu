@@ -1,4 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Ma réu</string>
     <string name="delete_icon">Delete icon</string>
+    <string name="meetingSubject">Sujet de la réunion</string>
+    <string name="meetingLocation">Lieu de la réunion</string>
+    <string name="colorTextView">Couleur de la vignette :</string>
+    <string name="next">Suivant</string>
+    <string name="participant_email">Email du participant</string>
+    <string name="exemple_email" tools:ignore="Typos">exemple@email.fr</string>
+    <string name="delete_email_button">Supprimer l\'adresse email</string>
+    <string name="add_email">Ajouter l\'email</string>
+    <string name="Done">Terminé</string>
+
 </resources>

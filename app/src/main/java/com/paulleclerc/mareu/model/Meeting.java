@@ -1,12 +1,12 @@
-package com.paulleclerc.mareu.Model;
-
-import com.paulleclerc.mareu.R;
+package com.paulleclerc.mareu.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Meeting {
+    public static final String DATE_FORMATTER = "EEEE dd MMMM yyyy - HH:mm";
+
     private static List<Meeting> sMeetingList = new ArrayList<>();
 
     public static List<Meeting> getMeetingList() {
