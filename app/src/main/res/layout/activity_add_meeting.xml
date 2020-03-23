@@ -17,14 +17,187 @@
         tools:ignore="MissingConstraints"
         app:title="Nouvelle réunion"/>
 
-    <com.paulleclerc.mareu.ui.utils.NonSwipeableViewPager
-        android:id="@+id/viewPager"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/subject_text_input"
         android:layout_width="409dp"
-        android:layout_height="601dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/main_toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/subject_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/meetingSubject"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_location"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subject_text_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/location_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/meetingLocation"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/red_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingRed"
+        android:forceDarkAllowed="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_textView" />
+
+    <Button
+        android:id="@+id/orange_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingOrange"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_textView" />
+
+    <Button
+        android:id="@+id/yellow_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingYellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_textView" />
+
+    <Button
+        android:id="@+id/green_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingGreen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/red_button" />
+
+    <Button
+        android:id="@+id/blue_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingBlue"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orange_button" />
+
+    <Button
+        android:id="@+id/purple_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/colorButtonSize"
+        android:layout_height="@dimen/colorButtonSize"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_box_white"
+        android:backgroundTint="@color/MeetingPurple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yellow_button" />
+
+    <TextView
+        android:id="@+id/color_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/colorTextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_time_picker_button" />
+
+    <!--<Button
+        android:id="@+id/next_to_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/participants_rv"
+        android:layout_width="423dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_location" />
+
+    <EditText
+        android:id="@+id/email_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
+        android:ems="10"
+        android:hint="@string/participant_email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toStartOf="@+id/add_email_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/participants_rv" />
+
+    <ImageButton
+        android:id="@+id/add_email_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ic_add_box"
+        android:backgroundTint="@color/grayOut"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/participants_rv"
+        android:contentDescription="@string/add_email"/>
+
+    <Button
+        android:id="@+id/date_time_picker_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_edit_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

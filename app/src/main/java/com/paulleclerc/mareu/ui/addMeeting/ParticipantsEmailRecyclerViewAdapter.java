@@ -1,6 +1,5 @@
-package com.paulleclerc.mareu.ui.addMeeting.fragments.subject;
+package com.paulleclerc.mareu.ui.addMeeting;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.shape.ShapePath;
 import com.paulleclerc.mareu.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsEmailRecyclerViewAdapter.EmailHolder> {

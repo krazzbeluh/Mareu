@@ -6,10 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingDateFragment;
-import com.paulleclerc.mareu.ui.addMeeting.fragments.subject.MeetingSubjectFragment;
 import com.paulleclerc.mareu.ui.addMeeting.fragments.MeetingTimeFragment;
 
-public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
+/*public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
 
     AddMeetingPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -35,3 +34,4 @@ public class AddMeetingPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 }
+*/
