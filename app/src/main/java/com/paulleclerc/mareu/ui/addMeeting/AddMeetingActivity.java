@@ -21,9 +21,16 @@ import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePick
 import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.MeetingBuilder;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
+
+import static com.paulleclerc.mareu.model.Meeting.DATE_FORMATTER;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener, ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
 
@@ -51,6 +58,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private Button mPurpleButton;
 
     private Button mSelectedButton;
+    private Date mSelectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +142,9 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void configureDateTimePickerButton() {
+        Date date = new Date();
+        setDate(date);
+
         mDateTimePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,9 +160,23 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                         .displayAmPm(false)
                         .mustBeOnFuture()
                         .minutesStep(15)
+                        .defaultDate(mSelectedDate)
+                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+                            @Override
+                            public void onDateSelected(Date date) {
+                                setDate(date);
+                            }
+                        })
                         .display();
             }
         });
+    }
+
+    private void setDate(Date date) {
+        mSelectedDate = date;
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
+        String dateTime = formatter.format(date);
+        mDateTimePickerButton.setText(dateTime);
     }
 
     @Override
@@ -192,6 +217,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
                 if (participants.size() > 0) MeetingBuilder.builder.setParticipants(participants);
                 else missingParams.add("les participants");
+
+                // TODO : datetime
 
                 MeetingBuilder.builder.setColor(getSelectedColor());
 
