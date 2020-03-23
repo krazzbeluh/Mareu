@@ -62,6 +62,7 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
             String title = meeting.getSubject() + " - " + meeting.getLocation();
             mTitleView.setText(title);
             mSubtitleView.setText(meeting.getParticipants());
+            mThumbnailView.setBackgroundTintList(itemView.getResources().getColorStateList(meeting.getColor()));
         }
     }
 }

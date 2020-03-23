@@ -41,8 +41,9 @@ public class Meeting {
 
     public String getParticipants() {
         StringBuilder participants = new StringBuilder();
-        for (String participant: mParticipants) {
-            participants.append(", ").append(participant);
+        for (int i = 0; i < mParticipants.size(); i++) {
+            if (i != 0) participants.append(", ");
+            participants.append(mParticipants.get(i));
         }
         return participants.toString();
     }
