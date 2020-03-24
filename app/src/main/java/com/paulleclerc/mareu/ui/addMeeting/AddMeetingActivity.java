@@ -46,7 +46,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private Spinner mLocationSpinner;
     private TextView mEmailTextView;
     private ImageButton mAddEmailButton;
-    private Button mDateTimePickerButton;
+    //private Button mDateTimePickerButton;
+    private TextView mDateTimePickerView;
     private Button mDoneButton;
 
     private Button mRedButton;
@@ -74,7 +75,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mLocationSpinner = findViewById(R.id.location_spinner);
         mAddEmailButton = findViewById(R.id.add_email_button);
         mEmailTextView = findViewById(R.id.email_edit_text);
-        mDateTimePickerButton  = findViewById(R.id.date_time_picker_button);
+        mDateTimePickerView = findViewById(R.id.meetingDate_editText);
         mDoneButton = findViewById(R.id.done_button);
         mRedButton = findViewById(R.id.red_button);
         mOrangeButton = findViewById(R.id.orange_button);
@@ -141,15 +142,12 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void configureDateTimePickerButton() {
-        Date date = new Date();
-        setDate(date);
-
-        mDateTimePickerButton.setOnClickListener(new View.OnClickListener() {
+        mDateTimePickerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date date = new Date();
                 new SingleDateAndTimePickerDialog.Builder(mContext)
                         .bottomSheet()
-                        .curved()
                         .displayMinutes(true)
                         .displayHours(true)
                         .displayDays(false)
@@ -159,7 +157,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                         .displayAmPm(false)
                         .mustBeOnFuture()
                         .minutesStep(15)
-                        .defaultDate(mSelectedDate)
+                        .defaultDate(date)
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {
@@ -175,7 +173,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mSelectedDate = date;
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
         String dateTime = formatter.format(date);
-        mDateTimePickerButton.setText(dateTime);
+        mDateTimePickerView.setText(dateTime);
     }
 
     @Override

@@ -11,6 +11,7 @@
     <string name="add_email">Ajouter l\'email</string>
     <string name="Done">Terminé</string>
     <string name="sortBy">Trier par</string>
+    <string name="date">Date</string>
 
     <string-array name="meetingLocations">
         <item>Salle 1</item>
