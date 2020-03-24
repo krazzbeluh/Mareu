@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
@@ -42,7 +43,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView mRecyclerView;
 
     private TextView mSubjectTextView;
-    private TextView mLocationTextView;
+    private Spinner mLocationSpinner;
     private TextView mEmailTextView;
     private ImageButton mAddEmailButton;
     private Button mDateTimePickerButton;
@@ -70,7 +71,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
         mSubjectTextView = findViewById(R.id.subject_edit_text);
-        mLocationTextView = findViewById(R.id.location_edit_text);
+        mLocationSpinner = findViewById(R.id.location_spinner);
         mAddEmailButton = findViewById(R.id.add_email_button);
         mEmailTextView = findViewById(R.id.email_edit_text);
         mDateTimePickerButton  = findViewById(R.id.date_time_picker_button);
@@ -207,9 +208,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 String subject = mSubjectTextView.getText().toString();
                 if (subject.equals("")) missingParams.add("le sujet");
 
-                String location = mLocationTextView.getText().toString();
-                if (location.equals("")) missingParams.add("le lieu");
-
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
                 if (!(participants.size() > 0)) missingParams.add("les participants");
 
@@ -234,6 +232,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 } else {
                     Log.d(TAG, "onClick: meeting ok");
 
+
+                    String location = String.valueOf(mLocationSpinner.getSelectedItem());
                     Meeting newMeeting = new Meeting(mSelectedDate, location, subject, participants, getSelectedColor());
                     Meeting.addMeeting(newMeeting);
                     finish();
