@@ -31,7 +31,7 @@
         android:backgroundTint="#2E3032"
         android:contentDescription="@string/delete_icon"
         android:padding="20dp"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"/>
 
     <RelativeLayout
         android:id="@+id/meeting_list_text_layout"
