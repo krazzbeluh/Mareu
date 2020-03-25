@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
@@ -42,10 +43,11 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView mRecyclerView;
 
     private TextView mSubjectTextView;
-    private TextView mLocationTextView;
+    private Spinner mLocationSpinner;
     private TextView mEmailTextView;
     private ImageButton mAddEmailButton;
-    private Button mDateTimePickerButton;
+    //private Button mDateTimePickerButton;
+    private TextView mDateTimePickerView;
     private Button mDoneButton;
 
     private Button mRedButton;
@@ -70,10 +72,10 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
         mSubjectTextView = findViewById(R.id.subject_edit_text);
-        mLocationTextView = findViewById(R.id.location_edit_text);
+        mLocationSpinner = findViewById(R.id.location_spinner);
         mAddEmailButton = findViewById(R.id.add_email_button);
         mEmailTextView = findViewById(R.id.email_edit_text);
-        mDateTimePickerButton  = findViewById(R.id.date_time_picker_button);
+        mDateTimePickerView = findViewById(R.id.meetingDate_editText);
         mDoneButton = findViewById(R.id.done_button);
         mRedButton = findViewById(R.id.red_button);
         mOrangeButton = findViewById(R.id.orange_button);
@@ -140,15 +142,12 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void configureDateTimePickerButton() {
-        Date date = new Date();
-        setDate(date);
-
-        mDateTimePickerButton.setOnClickListener(new View.OnClickListener() {
+        mDateTimePickerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date date = new Date();
                 new SingleDateAndTimePickerDialog.Builder(mContext)
                         .bottomSheet()
-                        .curved()
                         .displayMinutes(true)
                         .displayHours(true)
                         .displayDays(false)
@@ -158,7 +157,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                         .displayAmPm(false)
                         .mustBeOnFuture()
                         .minutesStep(15)
-                        .defaultDate(mSelectedDate)
+                        .defaultDate(date)
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {
@@ -174,7 +173,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mSelectedDate = date;
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
         String dateTime = formatter.format(date);
-        mDateTimePickerButton.setText(dateTime);
+        mDateTimePickerView.setText(dateTime);
     }
 
     @Override
@@ -207,11 +206,10 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 String subject = mSubjectTextView.getText().toString();
                 if (subject.equals("")) missingParams.add("le sujet");
 
-                String location = mLocationTextView.getText().toString();
-                if (location.equals("")) missingParams.add("le lieu");
-
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
                 if (!(participants.size() > 0)) missingParams.add("les participants");
+
+                if (mSelectedDate == null) missingParams.add("la date");
 
                 if (missingParams.size() > 0) {
                     StringBuilder message = new StringBuilder("Veuillez indiquer ");
@@ -234,6 +232,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 } else {
                     Log.d(TAG, "onClick: meeting ok");
 
+
+                    String location = String.valueOf(mLocationSpinner.getSelectedItem());
                     Meeting newMeeting = new Meeting(mSelectedDate, location, subject, participants, getSelectedColor());
                     Meeting.addMeeting(newMeeting);
                     finish();

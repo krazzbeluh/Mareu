@@ -34,23 +34,6 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_location"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_text_input">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/location_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/meetingLocation"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/red_button"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -133,17 +116,7 @@
         android:text="@string/colorTextView"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_time_picker_button" />
-
-    <!--<Button
-        android:id="@+id/next_to_date_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />-->
+        app:layout_constraintTop_toBottomOf="@+id/email_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/participants_rv"
@@ -157,22 +130,26 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_location" />
+        app:layout_constraintTop_toBottomOf="@+id/meetingDate_layout" />
 
-    <EditText
-        android:id="@+id/email_edit_text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
-        android:ems="10"
-        android:hint="@string/participant_email"
-        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toStartOf="@+id/add_email_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/participants_rv" />
+        app:layout_constraintTop_toBottomOf="@+id/participants_rv">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/participant_email"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/add_email_button"
@@ -188,16 +165,35 @@
         app:layout_constraintTop_toBottomOf="@+id/participants_rv"
         android:contentDescription="@string/add_email"/>
 
-    <Button
-        android:id="@+id/date_time_picker_button"
-        android:layout_width="0dp"
+    <Spinner
+        android:id="@+id/location_spinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:entries="@array/meetingLocations"
+        app:layout_constraintBottom_toBottomOf="@id/meetingDate_layout"
+        app:layout_constraintEnd_toStartOf="@id/meetingDate_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_edit_text" />
+        app:layout_constraintTop_toTopOf="@id/meetingDate_layout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meetingDate_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/location_spinner"
+        app:layout_constraintTop_toBottomOf="@id/subject_text_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meetingDate_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:hint="@string/date"
+            android:inputType="date" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/done_button"
@@ -208,6 +204,8 @@
         android:text="@string/Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

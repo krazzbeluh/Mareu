@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -21,24 +20,22 @@ import com.paulleclerc.mareu.ui.addMeeting.AddMeetingActivity;
 public class MeetingListActivity extends AppCompatActivity {
     private static final String TAG = MeetingListActivity.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
     private MeetingListRecyclerViewAdapter mAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_meeting);
-        mRecyclerView = findViewById(R.id.meeting_list_view);
+        RecyclerView recyclerView = findViewById(R.id.meeting_list_view);
 
         Toolbar mainToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
 
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new MeetingListRecyclerViewAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
