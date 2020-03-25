@@ -1,9 +1,11 @@
 package com.paulleclerc.mareu.ui.meetingList;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,7 +61,7 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
         void bindMeeting(Meeting meeting) {
             this.mMeeting = meeting;
-            String title = meeting.getSubject() + " - " + meeting.getLocation();
+            String title = meeting.getSubject() + " - " + meeting.getLocation() + " - " + meeting.getDateFormatted();
             mTitleView.setText(title);
             mSubtitleView.setText(meeting.getParticipants());
             mThumbnailView.setBackgroundTintList(itemView.getResources().getColorStateList(meeting.getColor()));
