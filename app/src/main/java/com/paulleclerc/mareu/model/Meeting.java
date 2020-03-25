@@ -1,13 +1,23 @@
 package com.paulleclerc.mareu.model;
 
+import com.paulleclerc.mareu.R;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Meeting {
     public static final String DATE_FORMATTER = "EEEE dd MMMM yyyy - HH:mm";
 
-    private static List<Meeting> sMeetingList = new ArrayList<>();
+    private static List<Meeting> sMeetingList = new ArrayList<>(Collections.singletonList(new Meeting(new Date(),
+            "Salle 3",
+            "Comptabilité",
+            new ArrayList<>(Arrays.asList("paul@lamzone.fr", "alexandra@lamzone.fr")),
+            R.color.MeetingBlue)));
 
     public static List<Meeting> getMeetingList() {
         return sMeetingList;
@@ -29,6 +39,11 @@ public class Meeting {
 
     public Date getDate() {
         return mDate;
+    }
+
+    public String getDateFormatted() {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
+        return formatter.format(mDate);
     }
 
     public String getLocation() {

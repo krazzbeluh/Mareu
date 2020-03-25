@@ -31,7 +31,7 @@
         android:backgroundTint="#2E3032"
         android:contentDescription="@string/delete_icon"
         android:padding="20dp"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"/>
 
     <RelativeLayout
         android:id="@+id/meeting_list_text_layout"
@@ -41,20 +41,22 @@
         android:layout_toStartOf="@id/meeting_list_delete"
         android:layout_toEndOf="@id/meeting_list_thumbnail">
 
-        <TextView
+        <com.paulleclerc.mareu.ui.utils.AutoScrollingTextView
             android:id="@+id/meeting_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:singleLine="true"
-            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Title" />
 
-        <TextView
+        <com.paulleclerc.mareu.ui.utils.AutoScrollingTextView
             android:id="@+id/meeting_list_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +64,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginRight="8dp"
-            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:textColor="#373737"
             android:textSize="16sp"
             tools:text="Subtitle"

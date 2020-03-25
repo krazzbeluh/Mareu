@@ -17,7 +17,7 @@ import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.ui.addMeeting.AddMeetingActivity;
 
-public class MeetingListActivity extends AppCompatActivity {
+public class MeetingListActivity extends AppCompatActivity implements MeetingListRecyclerViewAdapter.MeetingListRVEvents {
     private static final String TAG = MeetingListActivity.class.getSimpleName();
 
     private MeetingListRecyclerViewAdapter mAdapter;
@@ -34,7 +34,7 @@ public class MeetingListActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MeetingListRecyclerViewAdapter();
+        mAdapter = new MeetingListRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -54,10 +54,6 @@ public class MeetingListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void reloadList() {
-        mAdapter.notifyItemInserted(Meeting.getMeetingList().size() - 1);
-    }
-
     public void addMeeting(View view) {
         Intent intent = new Intent(MeetingListActivity.this, AddMeetingActivity.class);
         startActivity(intent);
@@ -66,6 +62,12 @@ public class MeetingListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        reloadList();
+        mAdapter.notifyItemInserted(Meeting.getMeetingList().size() - 1);
+    }
+
+    @Override
+    public void onDeleteMeeting(Meeting meeting) {
+        Meeting.removeMeeting(meeting);
+        mAdapter.notifyItemRemoved(Meeting.getMeetingList().size() - 1);
     }
 }
