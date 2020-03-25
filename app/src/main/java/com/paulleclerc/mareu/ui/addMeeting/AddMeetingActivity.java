@@ -209,6 +209,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
                 if (!(participants.size() > 0)) missingParams.add("les participants");
 
+                if (mSelectedDate == null) missingParams.add("la date");
+
                 if (missingParams.size() > 0) {
                     StringBuilder message = new StringBuilder("Veuillez indiquer ");
                     for (int i = 0; i < missingParams.size(); i++) {
