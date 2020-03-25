@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.Meeting;
+import com.paulleclerc.mareu.model.MeetingService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static com.paulleclerc.mareu.model.Meeting.DATE_FORMATTER;
+import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener, ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
 
@@ -37,6 +38,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private static final String TAG = AddMeetingActivity.class.getSimpleName();
 
     private final Context mContext = this;
+
+    private final MeetingService mMeetingService = new MeetingService();
 
     private LinearLayoutManager mLinearLayoutManager;
     private ParticipantsEmailRecyclerViewAdapter mRecyclerViewAdapter;
@@ -46,7 +49,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private Spinner mLocationSpinner;
     private TextView mEmailTextView;
     private ImageButton mAddEmailButton;
-    //private Button mDateTimePickerButton;
     private TextView mDateTimePickerView;
     private Button mDoneButton;
 
@@ -235,7 +237,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
                     String location = String.valueOf(mLocationSpinner.getSelectedItem());
                     Meeting newMeeting = new Meeting(mSelectedDate, location, subject, participants, getSelectedColor());
-                    Meeting.addMeeting(newMeeting);
+                    mMeetingService.addMeeting(newMeeting);
                     finish();
                 }
             }

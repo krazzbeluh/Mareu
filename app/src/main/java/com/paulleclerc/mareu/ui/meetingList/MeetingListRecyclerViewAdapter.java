@@ -16,14 +16,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.R;
+import com.paulleclerc.mareu.model.MeetingService;
+
+import java.util.Date;
+import java.util.List;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingListRecyclerViewAdapter.MeetingHolder> {
     private static final String TAG = MeetingListRecyclerViewAdapter.class.getSimpleName();
 
     private MeetingListRVEvents mEventHandler;
+    private MeetingService mMeetingService = new MeetingService();
+
+    private List<Meeting> mMeetingList;
 
     public interface MeetingListRVEvents {
         void onDeleteMeeting(Meeting meeting);
+    }
+
+    void filterBy(Date date) {
+        mMeetingList = mMeetingService.getMeetingWithFilter(date);
+        this.notifyDataSetChanged();
+    }
+
+    void filterBy(String location) {
+        mMeetingList = mMeetingService.getMeetingWithFilter(location);
+        this.notifyDataSetChanged();
+    }
+
+    void noFilter() {
+        mMeetingList = mMeetingService.getMeetingList();
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,17 +57,18 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
     @Override
     public void onBindViewHolder(@NonNull MeetingHolder holder, int position) {
-        Meeting meeting = Meeting.getMeetingList().get(position);
+        Meeting meeting = mMeetingList.get(position);
         holder.bindMeeting(meeting);
     }
 
     MeetingListRecyclerViewAdapter(MeetingListRVEvents eventHandler) {
         this.mEventHandler = eventHandler;
+        this.mMeetingList = this.mMeetingService.getMeetingList();
     }
 
     @Override
     public int getItemCount() {
-        return Meeting.getMeetingList().size();
+        return mMeetingList.size();
     }
 
     static class MeetingHolder extends RecyclerView.ViewHolder {

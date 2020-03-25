@@ -10,8 +10,10 @@
     <string name="delete_email_button">Supprimer l\'adresse email</string>
     <string name="add_email">Ajouter l\'email</string>
     <string name="Done">Terminé</string>
-    <string name="sortBy">Trier par</string>
     <string name="date">Date</string>
+    <string name="filter_by_date">Filtrer par date</string>
+    <string name="filter_by_room">Filtrer par salle</string>
+    <string name="no_filter">Sans filtre</string>
 
     <string-array name="meetingLocations">
         <item>Salle 1</item>

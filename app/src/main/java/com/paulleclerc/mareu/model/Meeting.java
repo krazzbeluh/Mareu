@@ -10,26 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
+
 public class Meeting {
-    public static final String DATE_FORMATTER = "EEEE dd MMMM yyyy - HH:mm";
-
-    private static List<Meeting> sMeetingList = new ArrayList<>(Collections.singletonList(new Meeting(new Date(),
-            "Salle 3",
-            "Comptabilité",
-            new ArrayList<>(Arrays.asList("paul@lamzone.fr", "alexandra@lamzone.fr")),
-            R.color.MeetingBlue)));
-
-    public static List<Meeting> getMeetingList() {
-        return sMeetingList;
-    }
-
-    public static void addMeeting(Meeting meeting) {
-        sMeetingList.add(meeting);
-    }
-
-    public static void removeMeeting(Meeting meeting) {
-        sMeetingList.remove(meeting);
-    }
 
     private Date mDate;
     private String mLocation;
