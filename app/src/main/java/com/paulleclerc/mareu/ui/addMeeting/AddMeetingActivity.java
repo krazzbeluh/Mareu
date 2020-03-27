@@ -34,7 +34,7 @@ import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener, ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
 
-    private static final Pattern mEmailPattern = Pattern.compile("^(.+)@(.+)$");
+    private static final Pattern mEmailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
     private static final String TAG = AddMeetingActivity.class.getSimpleName();
 
     private final Context mContext = this;
