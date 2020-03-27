@@ -5,10 +5,13 @@ import com.paulleclerc.mareu.model.Meeting;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
@@ -39,17 +42,14 @@ public class MeetingTests {
         assertEquals(mMeeting.getSubject(), mSubject);
 
         StringBuilder participants = new StringBuilder();
-        for (String participant: mParticipants) participants.append(", ").append(participant);
+        for (int i = 0; i < mParticipants.size(); i++) {
+            if (i != 0) participants.append(", ");
+            participants.append(mParticipants.get(i));
+        }
+
         assertEquals(participants.toString(), mMeeting.getParticipants());
         assertEquals(mMeeting.getColor(), mColor);
+
+        assertEquals(mMeeting.getDateFormatted(), new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE).format(mDate));
     }
-
-    @Test
-    public void getMeetingListShouldReturnEveryMeetings_addMeetingShouldAdd1Meeting() {
-        assertEquals(Meeting.getMeetingList().size(), 0);
-        Meeting.addMeeting(mMeeting);
-        assertEquals(Meeting.getMeetingList().size(), 1);
-    }
-
-
 }
