@@ -31,7 +31,7 @@ before_script:
 script:
   - ./gradlew clean
   - ./gradlew test
-  - ./gradlew deviceAndroidTest
+  - ./gradlew connectedAndroidTest
 before_install:
   - yes | sdkmanager "platforms;android-29"
   - mkdir "$ANDROID_HOME/licenses" || true
