@@ -36,7 +36,7 @@ public class MeetingListInstrumentedTest {
         List<String> participants = new ArrayList<>();
         participants.add("Consectetur");
         mMeeting = new Meeting(date, "Lorem Ipsum", "Dolor Sit Amet", participants, R.color.MeetingGreen);
-        Meeting.getMeetingList().add(mMeeting);
+        //Meeting.getMeetingList().add(mMeeting);
     }
 
     @Test
