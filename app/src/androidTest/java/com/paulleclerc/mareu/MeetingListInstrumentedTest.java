@@ -22,10 +22,13 @@ import java.util.List;
 
 import static androidx.test.espresso.Espresso.onView;
 
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static com.paulleclerc.mareu.utils.TestUtils.*;
 
@@ -79,6 +82,30 @@ public class MeetingListInstrumentedTest {
     public void recyclerViewShouldPresentCorrectMeetingInformations() {
         onView(withRecyclerView(R.id.meeting_list_view).atPositionOnView(0, R.id.meeting_list_title)).check(matches(withText(mMeeting.getSubject() + " - " + mMeeting.getLocation() + " - " + mMeeting.getDateFormatted())));
         onView(withRecyclerView(R.id.meeting_list_view).atPositionOnView(0, R.id.meeting_list_subtitle)).check(matches(withText(mMeeting.getParticipants())));
+    }
+
+    @Test
+    public void menu_onOpenMenu_ShouldHave3Items() {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText(R.string.filter_by_date)).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.filter_by_room)).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.no_filter)).check(matches(isCompletelyDisplayed()));
+    }
+
+    /*@Test TODO: Ask Nicolas
+    public void menu_onClickOnFilterByDateItem_ShouldOpenPickerDialog() {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText(R.string.filter_by_date)).perform(click());
+
+    }*/
+
+    @Test
+    public void menu_onClickOnFilterByLocationItem_ShouldOpenListDialog() {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText(R.string.filter_by_room)).perform(click());
+        for (String room: mActivityRule.getActivity().getApplicationContext().getResources().getStringArray(R.array.meetingLocations)) {
+            onView(withText(room)).check(matches(isCompletelyDisplayed()));
+        }
     }
 
     @After
