@@ -57,7 +57,7 @@ public class MeetingListInstrumentedTest {
         mMeeting = new Meeting(date, "Lorem Ipsum", "Dolor Sit Amet", participants, R.color.MeetingGreen);
         mMeetingService.getMeetingList().add(mMeeting);
 
-        mActivityRule.launchActivity(new Intent(Intent.ACTION_PICK));
+        mActivityRule.launchActivity(new Intent());
     }
 
     @Test
