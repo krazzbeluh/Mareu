@@ -34,7 +34,7 @@ import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener, ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
 
-    private static final Pattern mEmailPattern = Pattern.compile("^(.+)@(.+)$");
+    private static final Pattern mEmailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
     private static final String TAG = AddMeetingActivity.class.getSimpleName();
 
     private final Context mContext = this;
@@ -98,7 +98,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mAddEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mail = mEmailTextView.getText().toString();
+                String mail = mEmailTextView.getText().toString().toLowerCase();
                 if (mEmailPattern.matcher(mail).matches()) {
                     mRecyclerViewAdapter.addEmail(mail);
                     mEmailTextView.setText("");
@@ -124,9 +124,10 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final boolean hasText = count != 0;
-                mAddEmailButton.setEnabled(hasText);
-                mAddEmailButton.setBackgroundTintList(hasText ? ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)) : ColorStateList.valueOf(getResources().getColor(R.color.grayOut)));
+                String email = s.toString().toLowerCase();
+                boolean isEmail = mEmailPattern.matcher(email).matches();
+                mAddEmailButton.setEnabled(isEmail);
+                mAddEmailButton.setBackgroundTintList(isEmail ? ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)) : ColorStateList.valueOf(getResources().getColor(R.color.grayOut)));
             }
 
             @Override
@@ -192,11 +193,17 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         int buttonId = button.getId();
         mSelectedButton = button;
         mRedButton.setBackground(getResources().getDrawable((mRedButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mRedButton.setContentDescription((mRedButton.getId() == buttonId) ? "Bouton rouge sélectionné" : "Bouton rouge désélectionné");
         mOrangeButton.setBackground(getResources().getDrawable((mOrangeButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mOrangeButton.setContentDescription((mOrangeButton.getId() == buttonId) ? "Bouton orange sélectionné" : "Bouton orange désélectionné");
         mYellowButton.setBackground(getResources().getDrawable((mYellowButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mYellowButton.setContentDescription((mYellowButton.getId() == buttonId) ? "Bouton jaune sélectionné" : "Bouton jaune désélectionné");
         mGreenButton.setBackground(getResources().getDrawable((mGreenButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mGreenButton.setContentDescription((mGreenButton.getId() == buttonId) ? "Bouton vert sélectionné" : "Bouton vert désélectionné");
         mBlueButton.setBackground(getResources().getDrawable((mBlueButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mBlueButton.setContentDescription((mBlueButton.getId() == buttonId) ? "Bouton bleu sélectionné" : "Bouton bleu désélectionné");
         mPurpleButton.setBackground(getResources().getDrawable((mPurpleButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
+        mPurpleButton.setContentDescription((mPurpleButton.getId() == buttonId) ? "Bouton violet sélectionné" : "Bouton violet désélectionné");
     }
 
     private void configureDoneButton() {

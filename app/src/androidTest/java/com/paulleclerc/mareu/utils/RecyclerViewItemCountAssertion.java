@@ -1,18 +1,19 @@
 package com.paulleclerc.mareu.utils;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.matcher.BoundedMatcher;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 
-import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.checkNotNull;
+import static androidx.test.espresso.core.internal.deps.dagger.internal.Preconditions.checkNotNull;
 
 public class RecyclerViewItemCountAssertion implements ViewAssertion {
     private final Matcher<Integer> matcher;
@@ -21,7 +22,7 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
         return withItemCount(Matchers.is(expectedCount));
     }
 
-    private static RecyclerViewItemCountAssertion withItemCount(Matcher<Integer> matcher) {
+    public static RecyclerViewItemCountAssertion withItemCount(Matcher<Integer> matcher) {
         return new RecyclerViewItemCountAssertion(matcher);
     }
 

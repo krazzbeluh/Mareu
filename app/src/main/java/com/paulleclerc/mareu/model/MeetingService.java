@@ -1,7 +1,5 @@
 package com.paulleclerc.mareu.model;
 
-import android.util.Log;
-
 import com.paulleclerc.mareu.R;
 
 import java.text.SimpleDateFormat;
