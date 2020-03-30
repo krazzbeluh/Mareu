@@ -19,13 +19,13 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.atPosition;
 import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static com.paulleclerc.mareu.utils.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
@@ -54,7 +54,7 @@ public class AddMeetingInstrumentedTests {
     @Test
     public void addMeeting_onClickOnFinishWithNoData_ShouldDisplayErrorDialog() {
         onView(withId(R.id.done_button)).perform(scrollTo(), click());
-        onView(withText("Erreur")).check(matches(isCompletelyDisplayed()));
+        onView(withText("Erreur")).inRoot(isDialog()).check(matches(isDisplayed()));
     }
 
     @Test

@@ -27,7 +27,7 @@ import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -92,9 +92,9 @@ public class MeetingListInstrumentedTest {
     @Test
     public void menu_onOpenMenu_ShouldHave3Items() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withText(R.string.filter_by_date)).check(matches(isCompletelyDisplayed()));
-        onView(withText(R.string.filter_by_room)).check(matches(isCompletelyDisplayed()));
-        onView(withText(R.string.no_filter)).check(matches(isCompletelyDisplayed()));
+        onView(withText(R.string.filter_by_date)).check(matches(isDisplayed()));
+        onView(withText(R.string.filter_by_room)).check(matches(isDisplayed()));
+        onView(withText(R.string.no_filter)).check(matches(isDisplayed()));
     }
 
     /*@Test TODO: Ask Nicolas
@@ -109,8 +109,7 @@ public class MeetingListInstrumentedTest {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.filter_by_room)).perform(click());
         for (String room: mActivityRule.getActivity().getApplicationContext().getResources().getStringArray(R.array.meetingLocations)) {
-            onData(allOf(is(instanceOf(String.class)), is(room))).perform(scrollTo()).check(matches(isCompletelyDisplayed()));
-            //onView(withText(room)).perform(scrollTo()).check(matches(isCompletelyDisplayed()));
+            onData(allOf(is(instanceOf(String.class)), is(room))).perform(scrollTo()).check(matches(isDisplayed()));
         }
     }
 
