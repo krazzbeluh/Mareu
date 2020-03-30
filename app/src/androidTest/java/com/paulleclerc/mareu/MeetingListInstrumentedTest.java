@@ -57,7 +57,7 @@ public class MeetingListInstrumentedTest {
         mMeeting = new Meeting(date, "Lorem Ipsum", "Dolor Sit Amet", participants, R.color.MeetingGreen);
         mMeetingService.getMeetingList().add(mMeeting);
 
-        mActivityRule.launchActivity(new Intent());
+        mActivityRule.launchActivity(new Intent(Intent.ACTION_PICK));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MeetingListInstrumentedTest {
         mMeetingService.addMeeting(meeting);
 
         mActivityRule.finishActivity();
-        mActivityRule.launchActivity(new Intent());
+        mActivityRule.launchActivity(new Intent(Intent.ACTION_PICK));
 
         onView(withId(R.id.meeting_list_view)).check(withItemCount(2));
         onView(withRecyclerView(R.id.meeting_list_view).atPositionOnView(1, R.id.meeting_list_title)).check(matches(withText(meeting.getSubject() + " - " + meeting.getLocation() + " - " + meeting.getDateFormatted())));
