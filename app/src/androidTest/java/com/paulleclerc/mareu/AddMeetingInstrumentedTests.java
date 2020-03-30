@@ -16,6 +16,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
@@ -52,7 +53,7 @@ public class AddMeetingInstrumentedTests {
 
     @Test
     public void addMeeting_onClickOnFinishWithNoData_ShouldDisplayErrorDialog() {
-        onView(withId(R.id.done_button)).perform(click());
+        onView(withId(R.id.done_button)).perform(scrollTo(), click());
         onView(withText("Erreur")).check(matches(isCompletelyDisplayed()));
     }
 
@@ -88,7 +89,7 @@ public class AddMeetingInstrumentedTests {
     @Test
     public void addMeeting_onClickOnColorButton_shouldSelectOnlyThisButton() {
         for (int button: mColorButtons) {
-            onView(withId(button)).perform(click());
+            onView(withId(button)).perform(scrollTo(), click());
             checkOnlyThisColorButtonIsSelected(button);
         }
     }

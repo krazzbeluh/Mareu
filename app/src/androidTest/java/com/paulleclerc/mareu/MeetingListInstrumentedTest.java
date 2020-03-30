@@ -20,10 +20,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -31,6 +33,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static com.paulleclerc.mareu.utils.TestUtils.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class MeetingListInstrumentedTest {
@@ -104,7 +109,8 @@ public class MeetingListInstrumentedTest {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.filter_by_room)).perform(click());
         for (String room: mActivityRule.getActivity().getApplicationContext().getResources().getStringArray(R.array.meetingLocations)) {
-            onView(withText(room)).check(matches(isCompletelyDisplayed()));
+            onData(allOf(is(instanceOf(String.class)), is(room))).perform(scrollTo()).check(matches(isCompletelyDisplayed()));
+            //onView(withText(room)).perform(scrollTo()).check(matches(isCompletelyDisplayed()));
         }
     }
 
