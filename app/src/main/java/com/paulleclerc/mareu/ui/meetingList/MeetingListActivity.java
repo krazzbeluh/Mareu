@@ -7,14 +7,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
@@ -72,7 +70,7 @@ public class MeetingListActivity extends AppCompatActivity implements MeetingLis
                         .displayAmPm(false)
                         .mustBeOnFuture()
                         .minutesStep(15)
-                        .defaultDate(date)
+                        //.defaultDate(date)
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {

@@ -1,12 +1,8 @@
 package com.paulleclerc.mareu.ui.meetingList;
 
-import android.media.Image;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;

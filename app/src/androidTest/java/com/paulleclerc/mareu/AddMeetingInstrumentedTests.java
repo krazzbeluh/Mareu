@@ -1,12 +1,17 @@
 package com.paulleclerc.mareu;
 
 import android.util.Log;
+import android.widget.DatePicker;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.rule.ActivityTestRule;
 
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.BaseDialog;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.ui.addMeeting.AddMeetingActivity;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,8 +27,10 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
@@ -60,7 +67,7 @@ public class AddMeetingInstrumentedTests {
     @Test
     public void addMeeting_onClickOnLocationList_shouldDisplay10Items() {
         String[] items = mActivityRule.getActivity().getApplicationContext().getResources().getStringArray(R.array.meetingLocations);
-        for (String item: items) {
+        for (String item : items) {
             onView(withId(R.id.location_spinner)).perform(click());
             onData(allOf(is(instanceOf(String.class)), is(item))).perform(click());
             onView(withId(R.id.location_spinner)).check(matches(withSpinnerText(item)));
@@ -88,14 +95,14 @@ public class AddMeetingInstrumentedTests {
 
     @Test
     public void addMeeting_onClickOnColorButton_shouldSelectOnlyThisButton() {
-        for (int button: mColorButtons) {
+        for (int button : mColorButtons) {
             onView(withId(button)).perform(scrollTo(), click());
             checkOnlyThisColorButtonIsSelected(button);
         }
     }
 
     private void checkOnlyThisColorButtonIsSelected(int button) {
-        for (int currentButtonId: mColorButtons) {
+        for (int currentButtonId : mColorButtons) {
             String color = "";
             switch (currentButtonId) {
                 case R.id.red_button:
@@ -142,10 +149,11 @@ public class AddMeetingInstrumentedTests {
         onView(withRecyclerView(R.id.participants_rv).atPositionOnView(0, R.id.email_text_view)).check(matches(withText("alexandra@lamzone.com")));
     }
 
-    /*@Test
+    @Test
     public void addMeeting_onClickOnDateTextEdit_shouldOpenDatePicker() {
         onView(withId(R.id.meetingDate_editText)).perform(click());
-    }*/
+        onView(withClassName(Matchers.equalTo(BaseDialog.class.getName()))).check(matches(isDisplayed()));
+    }
 
     /*@Test
     public void addMeeting_onClickOnFinishButtonWithFieldsFilled_shouldFinishActivity() {

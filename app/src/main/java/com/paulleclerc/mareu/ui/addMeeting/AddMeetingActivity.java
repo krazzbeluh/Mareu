@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -14,17 +16,21 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.model.MeetingService;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,6 +46,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private final Context mContext = this;
 
     private final MeetingService mMeetingService = new MeetingService();
+    private final SimpleDateFormat mDateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
 
     private LinearLayoutManager mLinearLayoutManager;
     private ParticipantsEmailRecyclerViewAdapter mRecyclerViewAdapter;
@@ -148,34 +155,37 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mDateTimePickerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
-                new SingleDateAndTimePickerDialog.Builder(mContext)
-                        .bottomSheet()
-                        .displayMinutes(true)
-                        .displayHours(true)
-                        .displayDays(false)
-                        .displayMonth(true)
-                        .displayYears(true)
-                        .displayDaysOfMonth(true)
-                        .displayAmPm(false)
-                        .mustBeOnFuture()
-                        .minutesStep(15)
-                        .defaultDate(date)
-                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+                new DatePickerDialog(mContext,
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSelected(Date date) {
-                                setDate(date);
+                            public void onDateSet(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
+                                //*************Call Time Picker Here ********************
+                                new TimePickerDialog(mContext,
+                                        new TimePickerDialog.OnTimeSetListener() {
+
+                                            @Override
+                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                                String dateStr = dayOfMonth + "-" + monthOfYear + "-" + year + " " + hourOfDay + ":" + minute + ":00";
+
+                                                try {
+                                                    Date date = mDateFormatter.parse(dateStr);
+                                                    setDate(date);
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, Calendar.getInstance().get(Calendar.HOUR), Calendar.getInstance().get(Calendar.MINUTE), true)
+                                        .show();
                             }
-                        })
-                        .display();
+                        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                        .show();
             }
         });
     }
 
     private void setDate(Date date) {
         mSelectedDate = date;
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
-        String dateTime = formatter.format(date);
+        String dateTime = mDateFormatter.format(date);
         mDateTimePickerView.setText(dateTime);
     }
 
