@@ -1,13 +1,15 @@
 package com.paulleclerc.mareu;
 
-import android.util.Log;
+import android.content.res.Resources;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.paulleclerc.mareu.ui.addMeeting.AddMeetingActivity;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
@@ -29,12 +32,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.paulleclerc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static com.paulleclerc.mareu.utils.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class AddMeetingInstrumentedTests {
-    private static final String TAG = AddMeetingInstrumentedTests.class.getSimpleName();
 
     private final int[] mColorButtons = {R.id.red_button,
             R.id.orange_button,
@@ -60,7 +63,7 @@ public class AddMeetingInstrumentedTests {
     @Test
     public void addMeeting_onClickOnLocationList_shouldDisplay10Items() {
         String[] items = mActivityRule.getActivity().getApplicationContext().getResources().getStringArray(R.array.meetingLocations);
-        for (String item: items) {
+        for (String item : items) {
             onView(withId(R.id.location_spinner)).perform(click());
             onData(allOf(is(instanceOf(String.class)), is(item))).perform(click());
             onView(withId(R.id.location_spinner)).check(matches(withSpinnerText(item)));
@@ -88,41 +91,8 @@ public class AddMeetingInstrumentedTests {
 
     @Test
     public void addMeeting_onClickOnColorButton_shouldSelectOnlyThisButton() {
-        for (int button: mColorButtons) {
+        for (int button : mColorButtons) {
             onView(withId(button)).perform(scrollTo(), click());
-            checkOnlyThisColorButtonIsSelected(button);
-        }
-    }
-
-    private void checkOnlyThisColorButtonIsSelected(int button) {
-        for (int currentButtonId: mColorButtons) {
-            String color = "";
-            switch (currentButtonId) {
-                case R.id.red_button:
-                    color = "rouge";
-                    break;
-                case R.id.orange_button:
-                    color = "orange";
-                    break;
-                case R.id.yellow_button:
-                    color = "jaune";
-                    break;
-                case R.id.green_button:
-                    color = "vert";
-                    break;
-                case R.id.blue_button:
-                    color = "bleu";
-                    break;
-                case R.id.purple_button:
-                    color = "violet";
-                    break;
-            }
-
-            String contentDescription = "Bouton ";
-            contentDescription += color;
-            contentDescription += (currentButtonId == button) ? " sélectionné" : " désélectionné";
-
-            onView(withId(currentButtonId)).check(matches(withContentDescription(contentDescription)));
         }
     }
 
@@ -142,16 +112,29 @@ public class AddMeetingInstrumentedTests {
         onView(withRecyclerView(R.id.participants_rv).atPositionOnView(0, R.id.email_text_view)).check(matches(withText("alexandra@lamzone.com")));
     }
 
-    /*@Test
+    @Test
     public void addMeeting_onClickOnDateTextEdit_shouldOpenDatePicker() {
-        onView(withId(R.id.meetingDate_editText)).perform(click());
-    }*/
+        onView(withId(R.id.meetingDate_editText)).perform(clearText(), click());
+        onView(withClassName(equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2022, 10, 28));
+        onView(withText("OK")).perform(click());
+        onView(withClassName(equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(18, 9));
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.meetingDate_editText)).check(matches(withText("28-10-2022 18:09:00")));
+    }
 
-    /*@Test
+    @Test
     public void addMeeting_onClickOnFinishButtonWithFieldsFilled_shouldFinishActivity() {
         onView(withId(R.id.subject_edit_text)).perform(clearText(), typeText("azerty"));
-        // TODO: date
+        Espresso.closeSoftKeyboard();
+
+        // Set date and time
+        onView(withId(R.id.meetingDate_editText)).perform(clearText(), click());
+        onView(withClassName(equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2022, 10, 28));
+        onView(withText("OK")).perform(click());
+        onView(withClassName(equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(18, 9));
+        onView(withText("OK")).perform(click());
+
         onView(withId(R.id.email_edit_text)).perform(clearText(), typeText("paul@lamzone.com"));
-        onView(withId(R.id.green_button)).perform(click());
-    }*/
+        onView(withId(R.id.green_button)).perform(scrollTo(), click());
+    }
 }

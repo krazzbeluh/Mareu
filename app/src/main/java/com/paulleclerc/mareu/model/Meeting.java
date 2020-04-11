@@ -5,15 +5,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
+import static com.paulleclerc.mareu.ui.meetingList.MeetingListActivity.DATE_FORMATTER;
 
 public class Meeting {
 
-    private Date mDate;
-    private String mLocation;
-    private String mSubject;
-    private List<String> mParticipants;
-    private int mColor;
+    private final Date mDate;
+    private final String mLocation;
+    private final String mSubject;
+    private final List<String> mParticipants;
+    private final int mColor;
 
     public Date getDate() {
         return mDate;

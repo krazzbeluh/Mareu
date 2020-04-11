@@ -43,6 +43,7 @@ public class TestUtils {
         }
 
         public Matcher<View> getConstraints() {
+            //noinspection unchecked
             return (Matcher<View>) Matchers.allOf(new Matcher[] {
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
             });
@@ -86,6 +87,7 @@ public class TestUtils {
             this.position = position;
         }
 
+        @SuppressWarnings("unchecked")
         public Matcher<View> getConstraints() {
             return Matchers.allOf(new Matcher[] {
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()

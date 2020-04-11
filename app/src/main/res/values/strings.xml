@@ -2,9 +2,7 @@
     <string name="app_name">Ma réu</string>
     <string name="delete_icon">Delete icon</string>
     <string name="meetingSubject">Sujet de la réunion</string>
-    <string name="meetingLocation">Lieu de la réunion</string>
     <string name="colorTextView">Couleur de la vignette :</string>
-    <string name="next">Suivant</string>
     <string name="participant_email">Email du participant</string>
     <string name="exemple_email" tools:ignore="Typos">exemple@email.fr</string>
     <string name="delete_email_button">Supprimer l\'adresse email</string>
@@ -14,6 +12,18 @@
     <string name="filter_by_date">Filtrer par date</string>
     <string name="filter_by_room">Filtrer par salle</string>
     <string name="no_filter">Sans filtre</string>
+    <string name="unselectedButton">Sélectionner ce bouton</string>
+    <string name="selectedButton">Bouton sélectionné</string>
+    <string name="meetingThumbnail">Vignette</string>
+    <string name="newMeeting">Nouvelle réunion</string>
+    <string name="Error">Erreur</string>
+    <string name="invalidEmailMessage">\" n\'est pas une adresse valide. Veuillez entrer une adresse mail correcte !</string>
+    <string name="OK">OK</string>
+    <string name="subject">le sujet</string>
+    <string name="participants">les participants</string>
+    <string name="the_date">la date</string>
+    <string name="pleaseType">\"Veuillez indiquer \"</string>
+    <string name="and">\" et \"</string>
 
     <string-array name="meetingLocations">
         <item>Salle 1</item>

@@ -7,29 +7,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.DatePicker;
 
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.model.MeetingService;
 import com.paulleclerc.mareu.ui.addMeeting.AddMeetingActivity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class MeetingListActivity extends AppCompatActivity implements MeetingListRecyclerViewAdapter.MeetingListRVEvents {
-    private static final String TAG = MeetingListActivity.class.getSimpleName();
+    public static final String DATE_FORMATTER = "dd/MM/yy HH:mm:ss";
 
     private MeetingListRecyclerViewAdapter mAdapter;
 
-    private MeetingService mMeetingService = new MeetingService();
+    private final MeetingService mMeetingService = new MeetingService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +59,18 @@ public class MeetingListActivity extends AppCompatActivity implements MeetingLis
 
         switch (id) {
             case R.id.action_filter_date:
-                Date date = new Date();
-                new SingleDateAndTimePickerDialog.Builder(this)
-                        .title(getResources().getString(R.string.filter_by_date))
-                        .displayMinutes(false)
-                        .mainColor(getResources().getColor(R.color.colorPrimary))
-                        .displayHours(false)
-                        .displayDays(false)
-                        .displayMonth(true)
-                        .displayYears(true)
-                        .displayDaysOfMonth(true)
-                        .displayAmPm(false)
-                        .mustBeOnFuture()
-                        .minutesStep(15)
-                        .defaultDate(date)
-                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+                final Context context = this;
+                new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSelected(Date date) {
-                                mAdapter.filterBy(date);
+                            public void onDateSet(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
+                                final int month = monthOfYear + 1;
+                                Calendar cal = Calendar.getInstance();
+                                cal.set(year, monthOfYear, dayOfMonth);
+                                mAdapter.filterBy(cal.getTime());
                             }
-                        })
-                        .display();
+                        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                        .show();
                 return true;
             case R.id.action_filter_room:
                 new AlertDialog.Builder(this)

@@ -21,7 +21,7 @@ public class MeetingTests {
     private Date mDate;
     private String mLocation;
     private String mSubject;
-    private List<String> mParticipants = new ArrayList<>();
+    private final List<String> mParticipants = new ArrayList<>();
     private int mColor;
 
     @Before

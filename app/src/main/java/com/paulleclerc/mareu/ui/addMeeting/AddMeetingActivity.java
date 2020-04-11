@@ -5,32 +5,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.paulleclerc.mareu.R;
 import com.paulleclerc.mareu.model.Meeting;
 import com.paulleclerc.mareu.model.MeetingService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static com.paulleclerc.mareu.model.MeetingService.DATE_FORMATTER;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener, ParticipantsEmailRecyclerViewAdapter.DeleteEmailCallback {
 
@@ -40,8 +42,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private final Context mContext = this;
 
     private final MeetingService mMeetingService = new MeetingService();
+    private final SimpleDateFormat mDateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
 
-    private LinearLayoutManager mLinearLayoutManager;
     private ParticipantsEmailRecyclerViewAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
 
@@ -67,9 +69,9 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meeting);
 
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView = findViewById(R.id.participants_rv);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerViewAdapter = new ParticipantsEmailRecyclerViewAdapter(this);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
@@ -85,6 +87,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mGreenButton = findViewById(R.id.green_button);
         mBlueButton = findViewById(R.id.blue_button);
         mPurpleButton = findViewById(R.id.purple_button);
+        mSelectedButton = mBlueButton;
 
         configureAddEmailButton();
         configureEmailTextView();
@@ -104,11 +107,12 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                     mEmailTextView.setText("");
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Erreur")
-                            .setMessage("\"" + mail + "\" n'est pas une adresse valide. Veuillez entrer une adresse mail correcte !")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setTitle(R.string.Error)
+                            .setMessage("\"" + mail + getString(R.string.invalidEmailMessage))
+                            .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {}
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
                             })
                             .create()
                             .show();
@@ -120,18 +124,22 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private void configureEmailTextView() {
         mEmailTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String email = s.toString().toLowerCase();
                 boolean isEmail = mEmailPattern.matcher(email).matches();
                 mAddEmailButton.setEnabled(isEmail);
-                mAddEmailButton.setBackgroundTintList(isEmail ? ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)) : ColorStateList.valueOf(getResources().getColor(R.color.grayOut)));
+                mAddEmailButton.setBackgroundTintList(isEmail ?
+                        ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)) :
+                        ColorStateList.valueOf(getResources().getColor(R.color.grayOut)));
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -148,62 +156,48 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mDateTimePickerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
-                new SingleDateAndTimePickerDialog.Builder(mContext)
-                        .bottomSheet()
-                        .displayMinutes(true)
-                        .displayHours(true)
-                        .displayDays(false)
-                        .displayMonth(true)
-                        .displayYears(true)
-                        .displayDaysOfMonth(true)
-                        .displayAmPm(false)
-                        .mustBeOnFuture()
-                        .minutesStep(15)
-                        .defaultDate(date)
-                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+                new DatePickerDialog(mContext,
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSelected(Date date) {
-                                setDate(date);
+                            public void onDateSet(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
+                                final int month = monthOfYear + 1;
+
+                                new TimePickerDialog(mContext,
+                                        new TimePickerDialog.OnTimeSetListener() {
+
+                                            @Override
+                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                                Calendar cal = Calendar.getInstance();
+                                                cal.clear();
+                                                cal.set(year, monthOfYear, dayOfMonth, hourOfDay, minute);
+
+                                                Date date = cal.getTime();
+                                                setDate(date);
+                                            }
+                                        }, Calendar.getInstance().get(Calendar.HOUR), Calendar.getInstance().get(Calendar.MINUTE), true)
+                                        .show();
                             }
-                        })
-                        .display();
+                        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                        .show();
             }
         });
     }
 
     private void setDate(Date date) {
         mSelectedDate = date;
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMATTER, Locale.FRANCE);
-        String dateTime = formatter.format(date);
+        String dateTime = mDateFormatter.format(date);
         mDateTimePickerView.setText(dateTime);
     }
 
     @Override
     public void onClick(View v) {
-        int buttonId = v.getId();
-        if (isColorButton(buttonId)) setSelectedButton((Button) v);
-    }
-
-    private boolean isColorButton(int id) {
-        return  (id == R.id.red_button || id == R.id.orange_button || id == R.id.yellow_button || id == R.id.green_button || id == R.id.blue_button || id == R.id.purple_button);
+        setSelectedButton((Button) v);
     }
 
     private void setSelectedButton(Button button) {
-        int buttonId = button.getId();
+        mSelectedButton.setBackground(getResources().getDrawable(R.drawable.ic_box_white));
         mSelectedButton = button;
-        mRedButton.setBackground(getResources().getDrawable((mRedButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mRedButton.setContentDescription((mRedButton.getId() == buttonId) ? "Bouton rouge sélectionné" : "Bouton rouge désélectionné");
-        mOrangeButton.setBackground(getResources().getDrawable((mOrangeButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mOrangeButton.setContentDescription((mOrangeButton.getId() == buttonId) ? "Bouton orange sélectionné" : "Bouton orange désélectionné");
-        mYellowButton.setBackground(getResources().getDrawable((mYellowButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mYellowButton.setContentDescription((mYellowButton.getId() == buttonId) ? "Bouton jaune sélectionné" : "Bouton jaune désélectionné");
-        mGreenButton.setBackground(getResources().getDrawable((mGreenButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mGreenButton.setContentDescription((mGreenButton.getId() == buttonId) ? "Bouton vert sélectionné" : "Bouton vert désélectionné");
-        mBlueButton.setBackground(getResources().getDrawable((mBlueButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mBlueButton.setContentDescription((mBlueButton.getId() == buttonId) ? "Bouton bleu sélectionné" : "Bouton bleu désélectionné");
-        mPurpleButton.setBackground(getResources().getDrawable((mPurpleButton.getId() == buttonId) ? R.drawable.ic_check_box_white : R.drawable.ic_box_white));
-        mPurpleButton.setContentDescription((mPurpleButton.getId() == buttonId) ? "Bouton violet sélectionné" : "Bouton violet désélectionné");
+        mSelectedButton.setBackground(getResources().getDrawable(R.drawable.ic_check_box_white));
     }
 
     private void configureDoneButton() {
@@ -213,35 +207,33 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 List<String> missingParams = new ArrayList<>();
 
                 String subject = mSubjectTextView.getText().toString();
-                if (subject.equals("")) missingParams.add("le sujet");
+                if (subject.equals("")) missingParams.add(getString(R.string.subject));
 
                 List<String> participants = mRecyclerViewAdapter.getEmailList();
-                if (!(participants.size() > 0)) missingParams.add("les participants");
+                if (!(participants.size() > 0)) missingParams.add(getString(R.string.participants));
 
-                if (mSelectedDate == null) missingParams.add("la date");
+                if (mSelectedDate == null) missingParams.add(getString(R.string.the_date));
 
                 if (missingParams.size() > 0) {
-                    StringBuilder message = new StringBuilder("Veuillez indiquer ");
+                    StringBuilder message = new StringBuilder(getString(R.string.pleaseType));
                     for (int i = 0; i < missingParams.size(); i++) {
                         message.append(missingParams.get(i));
-                        if (i == missingParams.size() - 2) message.append(" et ");
+                        if (i == missingParams.size() - 2) message.append(getString(R.string.and));
                         else if (i < missingParams.size() - 2) message.append(", ");
                     }
                     message.append(".");
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Erreur")
+                    builder.setTitle(R.string.Error)
                             .setMessage(message)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {}
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
                             })
                             .create()
                             .show();
                 } else {
-                    Log.d(TAG, "onClick: meeting ok");
-
-
                     String location = String.valueOf(mLocationSpinner.getSelectedItem());
                     Meeting newMeeting = new Meeting(mSelectedDate, location, subject, participants, getSelectedColor());
                     mMeetingService.addMeeting(newMeeting);

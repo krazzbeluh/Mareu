@@ -1,17 +1,15 @@
 package com.paulleclerc.mareu.ui.meetingList;
 
-import android.media.Image;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.paulleclerc.mareu.model.Meeting;
@@ -22,10 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingListRecyclerViewAdapter.MeetingHolder> {
-    private static final String TAG = MeetingListRecyclerViewAdapter.class.getSimpleName();
 
-    private MeetingListRVEvents mEventHandler;
-    private MeetingService mMeetingService = new MeetingService();
+    private final MeetingListRVEvents mEventHandler;
+    private final MeetingService mMeetingService = new MeetingService();
 
     private List<Meeting> mMeetingList;
 
@@ -72,16 +69,17 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
     }
 
     static class MeetingHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = MeetingHolder.class.getSimpleName();
 
         private Meeting mMeeting;
-        private MeetingListRVEvents mEventHandler;
+        private final MeetingListRVEvents mEventHandler;
 
-        View mThumbnailView;
-        TextView mTitleView;
-        TextView mSubtitleView;
-        RelativeLayout mRelativeLayout;
-        ImageButton mDeleteButton;
+        final ImageView mThumbnailView;
+        final TextView mTitleView;
+        final TextView mParticipantsView;
+        final TextView mLocationView;
+        final TextView mDateView;
+        final RelativeLayout mRelativeLayout;
+        final ImageButton mDeleteButton;
 
         MeetingHolder(@NonNull View itemView, MeetingListRVEvents eventHandler) {
             super(itemView);
@@ -89,22 +87,32 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
             this.mThumbnailView = itemView.findViewById(R.id.meeting_list_thumbnail);
             this.mTitleView = itemView.findViewById(R.id.meeting_list_title);
-            this.mSubtitleView = itemView.findViewById(R.id.meeting_list_subtitle);
+            this.mLocationView = itemView.findViewById(R.id.meeting_list_location);
+            this.mDateView = itemView.findViewById(R.id.meeting_list_date);
+            this.mParticipantsView = itemView.findViewById(R.id.meeting_list_subtitle);
             this.mRelativeLayout = itemView.findViewById(R.id.meeting_item_relativeLayout);
             this.mDeleteButton = itemView.findViewById(R.id.meeting_list_delete);
         }
 
         void bindMeeting(Meeting meeting) {
             this.mMeeting = meeting;
-            String title = meeting.getSubject() + " - " + meeting.getLocation() + " - " + meeting.getDateFormatted();
-            mTitleView.setText(title);
-            mSubtitleView.setText(meeting.getParticipants());
-            mThumbnailView.setBackgroundTintList(itemView.getResources().getColorStateList(meeting.getColor()));
+            mTitleView.setText(meeting.getSubject());
+            mLocationView.setText(meeting.getLocation());
+            mDateView.setText(meeting.getDateFormatted());
+            mParticipantsView.setText(meeting.getParticipants());
+            mThumbnailView.setColorFilter(ContextCompat.getColor(itemView.getContext(), meeting.getColor()));
 
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mEventHandler.onDeleteMeeting(mMeeting);
+                }
+            });
+
+            mParticipantsView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mParticipantsView.setMaxLines((mParticipantsView.getMaxLines() == 1) ? Integer.MAX_VALUE : 1);
                 }
             });
         }

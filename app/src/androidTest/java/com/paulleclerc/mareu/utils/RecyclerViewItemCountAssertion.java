@@ -22,7 +22,7 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
         return withItemCount(Matchers.is(expectedCount));
     }
 
-    public static RecyclerViewItemCountAssertion withItemCount(Matcher<Integer> matcher) {
+    private static RecyclerViewItemCountAssertion withItemCount(Matcher<Integer> matcher) {
         return new RecyclerViewItemCountAssertion(matcher);
     }
 
