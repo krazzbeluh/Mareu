@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsEmailRecyclerViewAdapter.EmailHolder> {
-    private List<String> mEmailList = new ArrayList<>();
+    private final List<String> mEmailList = new ArrayList<>();
 
     List<String> getEmailList() {
         return mEmailList;
     }
 
-    private DeleteEmailCallback mCallback;
+    private final DeleteEmailCallback mCallback;
 
     ParticipantsEmailRecyclerViewAdapter(DeleteEmailCallback callback) {
         this.mCallback = callback;
@@ -61,14 +61,13 @@ public class ParticipantsEmailRecyclerViewAdapter extends RecyclerView.Adapter<P
     }
 
     static class EmailHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = EmailHolder.class.getSimpleName();
 
         final ParticipantsEmailRecyclerViewAdapter mAdapter;
 
         String mEmail;
 
-        TextView mEmailView;
-        ImageButton mDeleteButton;
+        final TextView mEmailView;
+        final ImageButton mDeleteButton;
 
         EmailHolder(ParticipantsEmailRecyclerViewAdapter adapter, @NonNull View itemView) {
             super(itemView);
